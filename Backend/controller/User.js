@@ -7,6 +7,12 @@ import jwt from "jsonwebtoken";
 export const loginUser = TryCatch(async (req, res) => {
   const { email } = req.body;
 
+  if (!email || !email.trim()) {
+    return res.status(400).json({
+      message: "Email is required",
+    });
+  }
+
   const subject = "E-Commerce App";
 
   const otp = Math.floor(100000 + Math.random() * 900000);
