@@ -1,7 +1,7 @@
 import { LogIn, ShoppingCart, User, LogOut, ShoppingBag } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { userData } from "../Context/UserContext";
 import {
   DropdownMenu,
@@ -12,16 +12,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { CartData } from "@/Context/CartContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isAuth, setIsAuth } = userData();
+  const { isAuth, logoutUser } = userData();
+
+  const { totalItem, setTotalItem } = CartData();
 
   const logoutHandler = () => {
-    alert("Logged Out");
-    Cookies.remove("token");
-    setIsAuth(false);
-    navigate("/login");
+    logoutUser(navigate, setTotalItem);
+    // Cookies.remove("token");
+    // setIsAuth(false);
+    // navigate("/login");
   };
 
   return (
@@ -41,7 +44,7 @@ const Navbar = () => {
           >
             <ShoppingCart className="w-6 h-6" />
             <span className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 flex justify-center items-center rounded-full text-xs text-white font-bold">
-              5
+              {totalItem ? totalItem : 0}
             </span>
           </li>
           <li>

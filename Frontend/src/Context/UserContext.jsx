@@ -1,6 +1,6 @@
 import { server } from "@/main";
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -34,15 +34,21 @@ const UserProvider = ({ children }) => {
     }
   }
 
-  async function verifyUser(otp, navigate) {
+  async function verifyUser(otp, navigate, fetchCart) {
     setBtnLoading(true);
 
     const email = localStorage.getItem("email");
 
     try {
-      const { data } = await axios.post(`${server}/api/user/verify`, { email, otp });
+      const { data } = await axios.post(`${server}/api/user/verify`, {
+        email,
+        otp,
+      });
 
       toast.success(data.message);
+      localStorage.clear();
+      navigate("/");
+      setBtnLoading(false);
       setIsAuth(true);
       setUser(data.user);
       Cookies.set("token", data.token, {
@@ -50,9 +56,7 @@ const UserProvider = ({ children }) => {
         secure: true,
         path: "/",
       });
-      localStorage.removeItem("email");
-      setBtnLoading(false);
-      navigate("/");
+      fetchCart();
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Unable to connect to the server",
@@ -61,9 +65,57 @@ const UserProvider = ({ children }) => {
     }
   }
 
+  async function fetchUser() {
+    const token = Cookies.get("token");
+    if (!token || token === "null") {
+      setIsAuth(false);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { data } = await axios.get(`${server}/api/user/me`, {
+        headers: {
+          token,
+        },
+      });
+
+      setIsAuth(true);
+      setUser(data.user);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      Cookies.remove("token", { path: "/" });
+      setIsAuth(false);
+      setLoading(false);
+    }
+  }
+
+  function logoutUser(navigate, setTotalItem) {
+    Cookies.remove("token", { path: "/" });
+    setUser([]);
+    setIsAuth(false);
+    navigate("/login");
+    toast.success("Logged Out");
+    setTotalItem(0);
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <userContext.Provider
-      value={{ user, loading, btnLoading, isAuth, setIsAuth, loginUser, verifyUser }}
+      value={{
+        user,
+        loading,
+        btnLoading,
+        isAuth,
+        setIsAuth,
+        loginUser,
+        verifyUser,
+        logoutUser,
+      }}
     >
       {children}
       <Toaster />

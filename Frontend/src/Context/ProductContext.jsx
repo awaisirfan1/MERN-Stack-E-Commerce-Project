@@ -1,0 +1,84 @@
+import { server } from "@/main";
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
+
+const ProductContext = createContext();
+
+const ProductProvider = ({ children }) => {
+  const [products, setProducts] = useState([]);
+  const [newProd, setNewProd] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [price, setPrice] = useState("");
+  const [search, setSearch] = useState("");
+
+  async function fetchProducts() {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(
+        `${server}/api/product/all?search=${search}&category=${category}&sortByPrice=${price}&page=${page}`,
+      );
+
+      setProducts(data.products);
+      setNewProd(data.newProduct);
+      setCategories(data.categories);
+      setTotalPages(data.totalPages);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
+  const [product, setProduct] = useState([]);
+  const [relatedProduct, setRelatedProduct] = useState([]);
+
+  async function fetchProduct(id) {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`${server}/api/product/${id}`);
+
+      setProduct(data.product);
+      setRelatedProduct(data.relatedProduct);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, [search, category, price, page]);
+  return (
+    <ProductContext.Provider
+      value={{
+        products,
+        newProd,
+        loading,
+        search,
+        setSearch,
+        categories,
+        category,
+        setCategory,
+        totalPages,
+        price,
+        setPrice,
+        page,
+        setPage,
+        fetchProduct,
+        product,
+        relatedProduct,
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
+  );
+};
+
+export default ProductProvider;
+
+export const ProductData = () => useContext(ProductContext);

@@ -5,23 +5,34 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { userData } from "./Context/UserContext";
 import Verify from "./pages/Verify";
+import Loader from "./components/Loader";
+import Products from "./pages/Products";
+import Cart from "./pages/Cart";
+import NotFound from "./pages/NotFound";
+import ProductPage from "./pages/ProductPage";
 
 const App = () => {
-  const {  } = userData();
+  const { isAuth, loading } = userData();
 
-  // console.log(user);
-  
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/verify" element={<Verify />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+      {loading ? (
+        <Loader />
+      ) : (
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/cart" element={isAuth ? <Cart /> : <Login />} />
+            <Route path="*" element={<NotFound/>} />
+            <Route path="/login" element={isAuth ? <Home /> : <Login />} />
+            <Route path="/verify" element={isAuth ? <Home /> : <Verify />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      )}
     </>
   );
 };

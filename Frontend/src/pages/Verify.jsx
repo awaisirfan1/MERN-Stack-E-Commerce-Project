@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CartData } from "@/Context/CartContext";
 import { userData } from "@/Context/UserContext";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -21,8 +22,10 @@ const Verify = () => {
 
   const { btnLoading, loginUser, verifyUser } = userData();
 
+  const {fetchCart} = CartData();
+
   const submitHandler = () => {
-    verifyUser(Number(otp), navigate);
+    verifyUser(Number(otp), navigate, fetchCart);
   };
 
   const [timer, setTimer] = useState(90);
