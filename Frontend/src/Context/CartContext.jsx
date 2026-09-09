@@ -7,12 +7,13 @@ import toast from "react-hot-toast";
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
-  //   const token = Cookies.get("token");
+  const token = Cookies.get("token");
   //   const [loading, setLoading] = useState(false);
   const [totalItem, setTotalItem] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
 
   const [cart, setCart] = useState([]);
+
   async function fetchCart() {
     const token = Cookies.get("token");
     if (!token || token === "null") {
@@ -66,12 +67,53 @@ const CartProvider = ({ children }) => {
     }
   }
 
+  async function updateCart(action, id) {
+    try {
+      const { data } = await axios.post(
+        `${server}/api/cart/update?action=${action}`,
+        { id },
+        {
+          headers: {
+            token,
+          },
+        },
+      );
+      fetchCart();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
+  async function removeFromCart(id) {
+    try {
+      const { data } = await axios.get(`${server}/api/cart/remove/${id}`, {
+        headers: {
+          token,
+        },
+      });
+
+      toast.success(data.message);
+      fetchCart();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchCart();
   }, []);
   return (
     <CartContext.Provider
-      value={{ cart, subTotal, totalItem, setTotalItem, fetchCart, addToCart }}
+      value={{
+        cart,
+        subTotal,
+        totalItem,
+        setTotalItem,
+        fetchCart,
+        addToCart,
+        updateCart,
+        removeFromCart,
+      }}
     >
       {children}
     </CartContext.Provider>

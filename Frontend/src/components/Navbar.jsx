@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { CartData } from "@/Context/CartContext";
+import { ModeToggle } from "./mode-toggle";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Navbar = () => {
     <div className="z-50 sticky top-0 bg-background/50 backdrop-blur-2xl">
       <div className="container mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
         <h1 className="text-2xl font-bold">QuickCart</h1>
-        <ul className="flex justify-center items-center space-x-6">
+        <ul className="flex justify-center items-center space-x-5">
           <li className="cursor-pointer" onClick={() => navigate("/")}>
             Home
           </li>
@@ -43,7 +44,7 @@ const Navbar = () => {
             onClick={() => navigate("/cart")}
           >
             <ShoppingCart className="w-6 h-6" />
-            <span className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 flex justify-center items-center rounded-full text-xs text-white font-bold">
+            <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 flex justify-center items-center rounded-full text-xs text-white font-bold">
               {totalItem ? totalItem : 0}
             </span>
           </li>
@@ -53,14 +54,14 @@ const Navbar = () => {
                 render={
                   <button
                     type="button"
-                    className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition hover:bg-gray-100"
+                    className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition hover:bg-gray-100 dark:hover:bg-destructive/30"
                     aria-label={
                       isAuth ? "Open account menu" : "Open login menu"
                     }
                   />
                 }
               >
-                {isAuth ? <User size={20} /> : <LogIn size={20} />}
+                {isAuth ? <User size={25} /> : <LogIn size={25} />}
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end" className="w-48">
@@ -79,7 +80,7 @@ const Navbar = () => {
                     <>
                       <DropdownMenuItem
                         className="cursor-pointer"
-                        onClick={() => navigate("/order")}
+                        onClick={() => navigate("/orders")}
                       >
                         <ShoppingBag className="mr-2 h-4 w-4" />
                         Your Orders
@@ -100,6 +101,7 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </li>
+          <ModeToggle/>
           {/* <li className="cursor-pointer">
             <DropdownMenu>
               <DropdownMenuTrigger>
