@@ -120,7 +120,7 @@ const Products = () => {
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {products && products.length > 0 ? (
               products.map((e) => {
                 return <ProductCard key={e._id} product={e} latest={"no"} />;

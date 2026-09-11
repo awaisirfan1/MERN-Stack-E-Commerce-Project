@@ -29,7 +29,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="z-50 sticky top-0 bg-background/50 backdrop-blur-2xl">
+    <div className="z-50 sticky top-0 bg-background/50 backdrop-blur-2xl border">
       <div className="container mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
         <h1 className="text-2xl font-bold">QuickCart</h1>
         <ul className="flex justify-center items-center space-x-5">

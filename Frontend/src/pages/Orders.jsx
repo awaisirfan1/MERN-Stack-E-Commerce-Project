@@ -31,8 +31,6 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  console.log(orders);
-
   if (loading) {
     return <Loader />;
   }
@@ -40,8 +38,8 @@ const Orders = () => {
   if (orders.length === 0) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center text-center">
-        <h1 className="text-2xl font-bold text-gray-600">No Orders Yet</h1>
-        <Button onClick={() => navigate("/products")}>Show Now</Button>
+        <h1 className="text-2xl font-bold text-gray-600 mb-1">No Orders Yet</h1>
+        <Button onClick={() => navigate("/products")}>Shop Now</Button>
       </div>
     );
   }
