@@ -1,4 +1,4 @@
-import { LogIn, ShoppingCart, User, LogOut, ShoppingBag } from "lucide-react";
+import { LogIn, ShoppingCart, User, LogOut, ShoppingBag, LayoutDashboardIcon } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // import Cookies from "js-cookie";
@@ -17,7 +17,7 @@ import { ModeToggle } from "./mode-toggle";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isAuth, logoutUser } = userData();
+  const { isAuth, logoutUser, user } = userData();
 
   const { totalItem, setTotalItem } = CartData();
 
@@ -88,6 +88,18 @@ const Navbar = () => {
 
                       <DropdownMenuSeparator />
 
+                      {user && user.role === "admin" && (
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={() => navigate("/admin/dashboard")}
+                        >
+                        <LayoutDashboardIcon className="mr-2 h-4 w-4" />
+                          Dashboard
+                        </DropdownMenuItem>
+                      )}
+
+                      <DropdownMenuSeparator />
+
                       <DropdownMenuItem
                         className="cursor-pointer"
                         onClick={logoutHandler}
@@ -101,7 +113,7 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </li>
-          <ModeToggle/>
+          <ModeToggle />
           {/* <li className="cursor-pointer">
             <DropdownMenu>
               <DropdownMenuTrigger>
