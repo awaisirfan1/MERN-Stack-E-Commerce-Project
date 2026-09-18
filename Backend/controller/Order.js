@@ -78,7 +78,7 @@ export const getAllOrders = TryCatch(async (req, res) => {
 
 export const getAllOrdersAdmin = TryCatch(async (req, res) => {
   if (req.user.role !== "admin")
-    return res.json.status(403).json({
+    return res.status(403).json({
       message: "You are not admin",
     });
 
@@ -98,7 +98,7 @@ export const getMyOrder = TryCatch(async (req, res) => {
 //update status
 export const updateStatus = TryCatch(async (req, res) => {
   if (req.user.role !== "admin")
-    return res.json.status(403).json({
+    return res.status(403).json({
       message: "You are not admin",
     });
 
@@ -119,7 +119,7 @@ export const updateStatus = TryCatch(async (req, res) => {
 //Statistics
 export const getStats = TryCatch(async (req, res) => {
   if (req.user.role !== "admin")
-    return res.json.status(403).json({
+    return res.status(403).json({
       message: "You are not admin",
     });
 

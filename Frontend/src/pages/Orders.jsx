@@ -21,6 +21,8 @@ const Orders = () => {
             token: Cookies.get("token"),
           },
         });
+ 
+        setOrders(data.orders);
       } catch (error) {
         console.log(error);
       } finally {
@@ -51,7 +53,7 @@ const Orders = () => {
         {orders.map((order) => {
           return (
             <Card
-              key={e._id}
+              key={order._id}
               className="shadow-sm hover:shadow-lg transition-shadow duration-200"
             >
               <CardHeader>

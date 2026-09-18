@@ -22,6 +22,7 @@ const orderSchema = new mongoose.Schema(
     },
 
     paymentInfo: {
+      transactionId: String,
       type: String,
     },
     user: {
@@ -30,7 +31,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     phone: {
-      type: Number,
+      type: String,
       required: true,
     },
     address: {
@@ -39,10 +40,11 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
+      enum: ["Pending", "Confirmed", "Processing", "Shipped", "Delivered", "Cancelled"],
       default: "Pending",
     },
     paidAt: {
-      type: String,
+      type: Date,
     },
     subTotal: {
       type: Number,

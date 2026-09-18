@@ -60,14 +60,14 @@ const Cart = () => {
                   >
                     +
                   </Button>
+                  <Button
+                    variant="ghost"
+                    className="text-red-600"
+                    onClick={() => removeFromCart(e._id)}
+                  >
+                    <Trash className="w-5 h-5" />
+                  </Button>
                 </div>
-                <Button
-                  variant="ghost"
-                  className="text-red-600"
-                  onClick={() => removeFromCart(e._id)}
-                >
-                  <Trash className="w-5 h-5" />
-                </Button>
               </div>
             ))}
           </div>
@@ -88,7 +88,13 @@ const Cart = () => {
               <span>Total:</span>
               <span>Rs.{subTotal}</span>
             </div>
-            <Button className="w-full mt-6" disabled={cart.length === 0} onClick={()=>navigate("/checkout")}>Checkout</Button>
+            <Button
+              className="w-full mt-6"
+              disabled={cart.length === 0}
+              onClick={() => navigate("/checkout")}
+            >
+              Checkout
+            </Button>
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const optSchema = new mongoose.Schema(
+const otpSchema = new mongoose.Schema(
     {
         email: {
             type: String,
@@ -19,4 +19,4 @@ const optSchema = new mongoose.Schema(
     }
 );
 
-export const OTP = mongoose.model("OTP", optSchema)
+export const OTP = mongoose.model("OTP", otpSchema)

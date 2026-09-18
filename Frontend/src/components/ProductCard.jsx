@@ -8,13 +8,13 @@ const ProductCard = ({ product, latest }) => {
   return (
     <div>
       {product && (
-        <div className="w-75 mx-auto shadow-md rounded-lg overflow-hidden border border-gray-200">
+        <div className="w-full min-w-0 shadow-md rounded-lg overflow-hidden border border-gray-200">
           <Link to={`/product/${product._id}`}>
-            <div className="relative h-75 bg-gray-100 flex items-center justify-center">
+            <div className="relative aspect-square bg-gray-100 flex items-center justify-center">
               <img
                 src={product.images?.[1]?.url}
                 alt="Product"
-                className="max-w-full max-h-full object-contain hover:scale-110"
+                className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-115"
               />
               {latest === "yes" && (
                 <Badge

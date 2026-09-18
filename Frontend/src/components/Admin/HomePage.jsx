@@ -100,7 +100,7 @@ const HomePage = () => {
   };
   return (
     <div>
-      <div className="flex justify-between mb-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
         <h2 className="text-2xl font-bold">All Products</h2>
 
         <Button onClick={() => setOpen(true)}>Add Products</Button>
@@ -129,6 +129,7 @@ const HomePage = () => {
               />
               <select
                 name="category"
+                className="border-2 w-full p-2 rounded-md dark:bg-gray-900 dark:text-white"
                 placeholder="Product Category"
                 value={formData.category}
                 onChange={handleChange}
@@ -175,7 +176,7 @@ const HomePage = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {products && products.length > 0 ? (
             products.map((e) => {
               return <ProductCard product={e} key={e._id} latest={"no"} />;
